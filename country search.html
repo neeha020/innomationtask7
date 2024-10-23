@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: auto;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-top: none;
+            background: #fff;
+            z-index: 1;
+        }
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <input type="text" class="search-bar" id="search-bar" placeholder="Search by country or capital...">
+        <div class="suggestions" id="suggestions"></div>
+    </div>
+    <script>
+        const countries = [
+            { name: 'United States', capital: 'Washington, D.C.' },
+            { name: 'Canada', capital: 'Ottawa' },
+            { name: 'United Kingdom', capital: 'London' },
+            // Add more countries
+        ];
+
+        const searchBar = document.getElementById('search-bar');
+        const suggestionsDiv = document.getElementById('suggestions');
+
+        searchBar.addEventListener('input', function() {
+            const query = searchBar.value.toLowerCase();
+            suggestionsDiv.innerHTML = '';
+
+            if (query) {
+                
+                const filteredCountries = countries.filter(country =>
+                    country.name.toLowerCase().includes(query) ||
+                    country.capital.toLowerCase().includes(query)
+                );
+
+                filteredCountries.forEach(country => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.textContent = ${country.name} - ${country.capital};
+                    suggestionItem.classList.add('suggestion-item');
+                    suggestionItem.addEventListener('click', function() {
+                        searchBar.value = ${country.name} - ${country.capital};
+                        suggestionsDiv.innerHTML = '';
+                    });
+                    suggestionsDiv.appendChild(suggestionItem);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
